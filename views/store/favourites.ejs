@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favourites</title>
+  <link rel="stylesheet" href="/output.css">
+</head>
+<body class="bg-green-100">
+  <%- include("../partials/nav") %>
+  <div class="max-w-7xl mx-auto p-6">
+    <p class="text-3xl font-bold text-center mt-8">Homes marked favourite:</p>
+    <div class="py-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      <% favhomes.forEach(homes=>{ %>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <img src=<%= homes["image"] %> alt="House Image" class="w-full h-56 object-cover">
+          <div class="p-4">
+            <p class="text-sm text-gray-500">By <span class="font-semibold text-gray-800"><%= homes["listername"]%></span></p>
+            <h2 class="text-xl font-semibold text-gray-800 mt-2"><%= homes["housename"] %></h2>
+            <p class="text-sm text-gray-500 mt-1">Location: <span class="text-gray-800"><%= homes["location"] %></span></p>
+         <div class="flex items-center justify-between mt-2">
+            <p class="text-lg font-semibold text-gray-900">Rs.<%= homes["price"] %>/night</p>
+            <div class="flex items-center">
+              <span class="text-yellow-500 mr-1">★★★★★</span> 
+              <span class="text-sm text-gray-500"><%= homes["rating"] %></span>
+            </div>
+          </div>
+
+           
+        <form action="/favourites/deletehome/<%= homes._id %>" method="POST">
+          <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-full text-sm hover:bg-red-700 transition">Remove from favourites</button>
+        </form>
+      
+            <a href="/added-homes/<%= homes._id %>" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full text-sm hover:bg-gray-300 transition">More Details</a>
+          </div>
+        </div>
+      <% }) %>
+
+      </div>
+  </div>
+</body>
+</html>
+
+

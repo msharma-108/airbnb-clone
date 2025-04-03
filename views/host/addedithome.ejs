@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=edit?"Update home":"Add home" %></title>
+
+  <link rel="stylesheet" href="/output.css">
+  
+</head>
+<body class="bg-red-100">
+  <%- include("../partials/nav") %>
+  <div class="mx-auto bg-gray-100 py-2 px-8 mt-16 rounded-lg shadow-lg text-center w-full md:w-[35vw]">
+    <h2 class="text-xl font-bold text-[#333] mb-6"><%=edit?"Update":"Register"%> your home</h2>
+    <form action="/<%=edit?"edithome":"addhome"%>" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="id" value="<%=edit?home._id:""%>">
+      <!-- hidden input field which passes id of home to be edited if updating home, 
+       OR empty string if adding new home -->
+      <div class="mb-1 text-left w-full"> 
+        <label class="font-bold block text-base text-gray-800 " for="lister-name">Lister Name:</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="text" id="lister-name" value="<%=edit?home["listername"]:""  %>" name="lister-name" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold block text-base text-gray-800 " for="house-name">House Name:</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="text" id="house-name" value="<%=edit?home["housename"]:""  %>"  name="house-name" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold block text-base text-gray-800 " for="price">Price:</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="text" id="price" value="<%=edit?home["price"]:""  %>"  name="price" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold block text-base text-gray-800 " for="location">Location:</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="text" id="location" value="<%=edit?home["location"]:""  %>"  name="location" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold block text-base text-gray-800 " for="rating">Rating:</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="text" id="rating" value="<%=edit?home["rating"]:""  %>"  name="rating" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold block text-base text-gray-800 " for="image">House Image</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="file" accept="image/*" id="image" value="<%=edit?home["image"]:""  %>"  name="image" required>
+      </div>    
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold block text-base text-gray-800 " for="description">Description</label>
+        <textarea class="w-full p-2 text-base rounded border border-gray-300" name="description" id="description"><%=edit?home["description"]:""  %></textarea>
+      </div>  
+    <input class="cursor-pointer border-2 border-black w-fit px-3 rounded-md font-semibold" type="submit" value="<%=edit?"Update":"Add home"  %>">
+    </form>
+  </div>
+</body>
+</html>

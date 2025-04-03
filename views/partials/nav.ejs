@@ -1,0 +1,74 @@
+<nav class="bg-[#df79a3] z-10 top-0 fixed px-4 pt-2 pb-2 w-full">
+    <ul class="flex justify-around"> 
+        <li class="flex gap-6">
+            
+            <a href="/" class="flex px-2 items-center rounded-md transition transition-300 hover:bg-[#ff6347] <%=currentPage==='home'?'rounded-md bg-[#2bd600]':'' %>">
+                <div class="flex items-center"><img src="/homeicon.svg" alt="home"></div>
+                <span class="hidden md:block font-bold text-red-700" >
+                    airbnb
+                </span>
+            </a>
+            <% if(isloggedin){ %>
+                <% if(user && user.usertype==="guest"){ %>
+                    <div >
+                        <a class="<%=currentPage==='addedhomes'?'rounded-md bg-[#2bd600]':'' %> flex border-1 border-white rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]" href="/added-homes">
+                            <img src="/checkhome.svg" alt="check-home"/>
+                            <span class="hidden md:block font-bold ">Check-out homes</span>
+                        </a>
+                    </div>
+                    <div >
+                        <a class="<%=currentPage==='mybookings'?'rounded-md bg-[#2bd600]':'' %> flex border-1 border-white rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]" href="/mybookings">
+                            <img src="/booking.svg" alt="add">
+                            <span class="hidden md:block font-bold ">My bookings</span>
+                        </a>
+                    </div>       
+                    <div >
+                        <a class="<%=currentPage==='favourites'?'rounded-md bg-[#2bd600]':'' %> flex border-1 border-white rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]" href="/favourites">
+                            <img src="/fav.svg" alt="">
+                            <span class="hidden md:block font-bold ">Favourites</span>                       
+                        </a>
+                    </div>
+                <% }else{ %>
+                    <div >
+                        <a class="<%=currentPage==='hostedhomes'?'rounded-md bg-[#2bd600]':'' %> flex border-1 border-white rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]" href="/hosted-homes">
+                            <img src="/hostedhomes.svg" alt="hosted">
+                            <span class="hidden md:block font-bold ">Hosted homes</span>
+                        </a>
+                    </div>
+                    <div >
+                        <a class="<%=currentPage==='addedithome'?'rounded-md bg-[#2bd600]':'' %> flex border-1 border-white rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]" href="/addhome">
+                            <img src="/addhome.svg" alt="">
+                            <span class="hidden md:block font-bold ">Add Home</span>                          
+                        </a>
+                    </div>
+                <% } %>
+            <% } %>
+        </li>    
+        <% if (!isloggedin){%>  
+            <li class="flex gap-2 "> 
+                <div >
+                    <a class="<%=currentPage==='login'?' bg-[#2bd600]':'' %> flex border-1 border-white rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]" href="/login">                       
+                        <img src="/login.svg" alt="">
+                        <span>Login</span>
+                    </a>
+                </div>
+                <div >                  
+                    <a class="<%=currentPage==='signup'?' bg-[#2bd600]':'' %> flex border-1 border-white rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]" href="/signup">       
+                        <img src="/register.svg" alt="">
+                        <span>Signup</span>
+                    </a>
+                </div>           
+            </li>
+        <% }else{ %>
+        <li>
+            <form action="/logout" method="POST">
+                
+                <button type="submit" class="border-1 border-white flex rounded-md px-1 py-1 transition transition-300 font-bold hover:bg-[#ff6347]">
+                    <img src="/logout.svg" alt="">
+                    <span class="hidden md:block font-bold ">Logout</span>                
+                </button>
+            </form>
+        </li>
+            <% } %>
+    </ul>
+</nav>

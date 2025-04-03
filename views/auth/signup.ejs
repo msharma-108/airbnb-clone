@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Signup</title>
+    <link rel="stylesheet" href="/output.css">
+</head>
+<body class="bg-blue-100">
+<%- include("../partials/nav") %>
+  <div class="mx-auto bg-gray-100 py-2 px-8 mt-14 rounded-lg shadow-lg text-center w-full md:w-[30vw]">
+    <h2 class="text-xl font-bold text-[#333] mb-6">Register new account</h2>
+    <form action="/signup" method="POST">
+      <div class="mb-1 text-left w-full"> 
+        <%- include("../partials/displayerror") %>
+        <label class="font-bold flex text-base text-gray-800 " for="firstname" >
+            <img src="/user.svg" alt="user">
+            <span> First name:</span>
+        </label>
+        <input value="<%= oldinput.firstname? oldinput.firstname:"" %>" class="w-full p-2 text-base rounded border border-gray-300" type="text" id="firstname" name="firstname" required>
+      </div>
+      <div class="mb-1 text-left w-full"> 
+        <label class="font-bold flex text-base text-gray-800 " for="lastname">
+            <img src="/user.svg" alt="user">
+            <span>Last name:</span>
+        </label>
+        <input value="<%= oldinput.lastname? oldinput.lastname:"" %>" class="w-full p-2 text-base rounded border border-gray-300" type="text" id="lastname" name="lastname" >
+      </div>
+      <div class="mb-1 text-left w-full"> 
+        <label class="font-bold flex text-base text-gray-800 " for="email">
+            <img src="/mail.svg" alt="">
+            <span>Email:</span>
+        </label>
+        <input value="<%= oldinput.email? oldinput.email:"" %>" class="w-full p-2 text-base rounded border border-gray-300" type="email" id="email" name="email" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold flex text-base text-gray-800 " for="password">
+            <img src="/password.svg" alt="">
+           <span>Password:</span>
+        </label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="password" id="password" name="password" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold flex text-base text-gray-800 " for="confirmpassword">
+            <img src="/password.svg" alt="">
+            <span>Confirm Password:</span>
+        </label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="password" id="confirmpassword" name="confirmpassword" required>
+      </div>
+      <div class="mb-2 text-left w-full flex gap-3">
+        <img src="/usertype.svg" alt="">
+        <p class="font-bold block text-base text-gray-800">Usertype:</p>
+        <label>
+            <input class=" p-2 text-base rounded border border-gray-300" type="radio" id="host" name="usertype" value="host" required />
+            <span>Host</span>
+        </label>
+        <label>
+            <input  class=" p-2 text-base rounded border border-gray-300" type="radio" id="guest" name="usertype" value="guest" required />
+            <span>Guest</span>
+        </label>
+      </div>
+      <div class="mb-1 text-left flex gap-3 w-full">
+          <input class="p-2 text-base rounded border border-gray-300" type="checkbox" id="terms" name="terms" required>
+        <label class="font-bold block text-base text-gray-800 " for="terms">I agree to the terms and conditions:</label>
+      </div>
+     
+    <input class="cursor-pointer border-2 border-black w-fit px-3 rounded-md font-semibold" type="submit" value="Register">
+    </form>
+    <div class="text-sm mt-2">Already have an account? <a href="/login" class="text-blue-700">Login</a></div>
+  </div>
+</body>
+</html>

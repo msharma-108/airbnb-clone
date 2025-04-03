@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/output.css">
+
+</head>
+<body class="bg-blue-100">
+    <%- include("../partials/nav") %>
+  <div class="mx-auto bg-gray-100 py-2 px-8 mt-14 rounded-lg shadow-lg text-center w-full md:w-[30vw]">
+    <h2 class="text-xl font-bold text-[#333] mb-6">Login to your account</h2>
+    <form action="/login" method="POST">
+      <%- include("../partials/displayerror") %>
+      <div class="mb-1 text-left w-full"> 
+        <label class="font-bold block text-base text-gray-800 " for="email">Email:</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="email" id="email" name="email" required>
+      </div>
+      <div class="mb-1 text-left w-full">
+        <label class="font-bold block text-base text-gray-800 " for="password">Password:</label>
+        <input class="w-full p-2 text-base rounded border border-gray-300" type="password" id="password" name="password" required>
+      </div>
+     
+     
+    <input class="cursor-pointer border-2 border-black w-fit px-3 rounded-md font-semibold" type="submit" value="Login">
+    </form>
+    <div class="text-sm mt-2">Dont have an account? <a href="/signup" class="text-blue-700">Signup</a></div>
+
+  </div>
+</body>
+</html>
