@@ -27,11 +27,11 @@
           </div>
 
            
-        <form action="/favourites/deletehome/<%= homes._id %>" method="POST">
-          <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-full text-sm hover:bg-red-700 transition">Remove from favourites</button>
-        </form>
-      
+            <form action="/favourites/deletehome/<%= homes._id %>" method="POST">
+              <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-full text-sm hover:bg-red-700 transition">Remove from favourites</button>
+            </form>
             <a href="/added-homes/<%= homes._id %>" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full text-sm hover:bg-gray-300 transition">More Details</a>
+              <div><a href="/mybookings" class="bg-green-400 text-gray-900 py-2 px-4 rounded-full text-sm hover:bg-green-500 transition">Book now</a></div>
           </div>
         </div>
       <% }) %>

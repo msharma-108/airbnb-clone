@@ -1,13 +1,7 @@
 <nav class="bg-[#df79a3] z-10 top-0 fixed px-4 pt-2 pb-2 w-full">
     <ul class="flex justify-around"> 
         <li class="flex gap-6">
-            
-            <a href="/" class="flex px-2 items-center rounded-md transition transition-300 hover:bg-[#ff6347] <%=currentPage==='home'?'rounded-md bg-[#2bd600]':'' %>">
-                <div class="flex items-center"><img src="/homeicon.svg" alt="home"></div>
-                <span class="hidden md:block font-bold text-red-700" >
-                    airbnb
-                </span>
-            </a>
+          
             <% if(isloggedin){ %>
                 <% if(user && user.usertype==="guest"){ %>
                     <div >
@@ -42,6 +36,13 @@
                         </a>
                     </div>
                 <% } %>
+            <% }else{%>
+                <a href="/" class="flex px-2 items-center rounded-md transition transition-300 hover:bg-[#ff6347] <%=currentPage==='home'?'rounded-md bg-[#2bd600]':'' %>">
+                    <div class="flex items-center"><img src="/homeicon.svg" alt="home"></div>
+                    <span class="hidden md:block font-bold text-red-700" >
+                        airbnb
+                    </span>
+                </a>
             <% } %>
         </li>    
         <% if (!isloggedin){%>  

@@ -9,7 +9,7 @@
 <body class="bg-green-100">
   <%- include("../partials/nav") %>
   <div class="max-w-7xl mx-auto p-6">
-    <p class="text-3xl font-bold text-center mt-8">Here are the registered homes:</p>
+    <p class="text-3xl font-bold text-center mt-8">Offers for you:</p>
     <div class="py-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
       <% houselist.forEach(homes=>{ %>
         <div class="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -27,7 +27,13 @@
           </div>
 
             <div><%- include("../partials/favform",{home:homes}) %></div>
-            <a href="/added-homes/<%= homes._id %>" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full text-sm hover:bg-gray-300 transition">More Details</a>
+            <div>
+              <a href="/added-homes/<%= homes._id %>" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full text-sm hover:bg-gray-300 transition">More Details</a>
+            </div>
+            <div>
+              <a href="/mybookings" class="bg-green-400 text-gray-900 py-2 px-4 rounded-full text-sm hover:bg-green-500 transition">Book now</a>
+            </div>
+
           </div>
         </div>
       <% }) %>

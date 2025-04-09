@@ -40,7 +40,8 @@ exports.postlogin=async (req,res,next)=>{
     req.session.isloggedin=true
     req.session.user=finduser
     await req.session.save()
-    res.redirect("/")
+    if (finduser.usertype=="guest")res.redirect("/added-homes")
+   else res.redirect("/hosted-homes")
 
 }
 
