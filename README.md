@@ -9,7 +9,8 @@ This is a **fully server-side rendered web application** built with **Express.js
 - **Server-side rendering** using Express and EJS  
 - **User role system** with `Host` and `Guest` types  
 - **Authentication** with `express-session` and **MongoDB**  
-- **Simulated payments** using Razorpay in **test mode**  
+- **Simulated payments** using Razorpay in **test mode** 
+- **Styling**  with tailwind CSS
 - Session-based login and user flow management  
 - Listing creation, booking, and basic role management  
 
