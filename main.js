@@ -4,11 +4,11 @@ const { default: mongoose } = require("mongoose")
 const session= require("express-session")
 const mongodbstore=require("connect-mongodb-session")(session)
 const multer=require("multer")
+require('dotenv').config();
+
 const DBPATH='mongodb://127.0.0.1:27017/airbnb'
 const app=express()
-// const nocache = require('nocache');
-// app.set('etag', false); 
-// app.use(nocache());
+
 
 const store=new  mongodbstore({
     uri:DBPATH,
@@ -31,12 +31,6 @@ const hostrouter=require("./Routes/hostroutes")
 const authrouter=require("./Routes/authrouter")
 
 const errorcontroller=require("./controllers/error")
-
-// app.use((req, res, next) => {
-//     res.set('Cache-Control', ' no-cache, must-revalidate, proxy-revalidate');
-
-//     next();
-// });
 const randomstring=(length)=>{
     const chars="abcdefghijklmnopqrstuvwxyz"
     let result=""
@@ -67,24 +61,19 @@ const multeroptions={
 app.use(express.static(path.join(__dirname,"public")))
 app.use("*/uploads",express.static(path.join(__dirname,"uploads")))
 app.use(express.urlencoded({extended:true}))
+app.use(express.json())
 app.use(multer(multeroptions).single("image"))
 app.use((req,res,next)=>{ 
     console.log(req.url,req.method)
     next();
 })
-// app.use(function(req, res, next) {
-//     res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-//     res.header('Expires', '-1');
-//     res.header('Pragma', 'no-cache');
-//     next()
-//   });
+
 app.use((req,res,next)=>{
-    // req.isloggedin=req.get('cookie')?req.get('cookie').split("=")[1]==="true":false
     req.isloggedin=req.session.isloggedin 
     next()
 })
 app.use((req,res,next)=>{
-    if((req.isloggedin==undefined && (req.url!="/" && req.url!="/login" && req.url!="/signup")) || (req.isloggedin==true && (req.url=="/login" || req.url=="/signup"))){
+    if((req.isloggedin==undefined && (req.url!="/checkout" && req.url!="/" && req.url!="/login" && req.url!="/signup")) || (req.isloggedin==true && (req.url=="/login" || req.url=="/signup"))){
         return res.redirect("/")
     } 
     next()
@@ -93,6 +82,7 @@ app.use(authrouter)
 app.use(homerouter) 
 app.use(storerouter)
 app.use(hostrouter)
+
 app.use(errorcontroller)
 mongoose.connect(DBPATH).then(()=>{
     app.listen(3000,()=>{
