@@ -30,15 +30,54 @@
             <div>
               <a href="/added-homes/<%= homes._id %>" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full text-sm hover:bg-gray-300 transition">More Details</a>
             </div>
-            <div>
-              <a href="/mybookings" class="bg-green-400 text-gray-900 py-2 px-4 rounded-full text-sm hover:bg-green-500 transition">Book now</a>
-            </div>
 
+              <div onclick="payNow('<%= homes.price %>','<%= homes.hostid %>')" class="bg-green-400 cursor-pointer w-fit text-gray-900 py-2 px-4 rounded-full text-sm hover:bg-green-500 transition">
+                Book now
+              </div>
           </div>
         </div>
       <% }) %>
 
       </div>
   </div>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    async function payNow(amount,payeeid) {
+      // Create order by calling the server endpoint
+      console.log(amount)
+      const response = await fetch('/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ amount,payeeid, currency: 'INR', receipt: 'receipt#1', notes: {} })
+      });
+   
+      const order = await response.json();
+      console.log(order)
+
+      // Open Razorpay Checkout
+      const paymentoptions = {
+        key: order.api_key, // Replace with your Razorpay key_id
+        amount: '50000', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        currency: 'INR',
+        name: 'airbnb test',
+        description: 'Test Transaction',
+        order_id:order.id, // This is the order_id created in the backend
+        callback_url: 'http://localhost:3000/paymentsuccess', // Your success URL
+        prefill: {
+          name: 'Gaurav Kumar',
+          email: 'gaurav.kumar@example.com',
+          contact: '9999999999'
+        },
+        theme: {
+          color: '#F37254'
+        },
+      };
+
+      const rzp = new window.Razorpay(paymentoptions);
+      rzp.open();
+    }
+  </script>
 </body>
 </html>
