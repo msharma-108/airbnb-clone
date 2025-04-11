@@ -10,5 +10,6 @@ storerouter.get("/favourites",storecontroller.getfavouritescontroller)
 storerouter.post("/favourites",storecontroller.postfavouritescontroller)
 storerouter.get("/added-homes/:homeid",storecontroller.detailscontroller)
 storerouter.post("/favourites/deletehome/:homeid",storecontroller.deletefavouritecontroller)
-
-module.exports=storerouter  
+storerouter.post("/checkout",storecontroller.checkout)
+storerouter.post("/paymentsuccess",storecontroller.paymentverification)
+module.exports=storerouter      

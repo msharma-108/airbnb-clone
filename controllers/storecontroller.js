@@ -1,5 +1,8 @@
 const home=require("../models/homemodel")
 const user=require("../models/usermodel")
+const payment=require("../models/paymentmodel")
+const crypto=require("crypto")
+const {instance}=require("../config/razorpayInstance.js")
 
 // exports.indexcontroller=(req,res,next)=>{
 //     home.find().then(houselist=>{
@@ -100,3 +103,47 @@ exports.detailscontroller=(req,res,next)=>{
         }
     })
 }
+
+
+
+ 
+exports.checkout=async (req,res,next)=>{
+    try {
+        const {amount,payeeid}=req.body
+        const orderoptions = {
+            amount:amount*100,  // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR", 
+          };
+        const order= await instance.orders.create(orderoptions)
+        order.api_key=process.env.RAZORPAY_KEYID
+        req.session.payment={}
+        req.session.payment.orderid=order.id
+        req.session.payment.payeeid=payeeid
+        return res.json(order)
+    } catch (error) {
+        console.log("payment error ",error)  
+    }
+}
+
+exports.paymentverification=async (req,res,next)=>{
+    const {razorpay_payment_id,razorpay_order_id,razorpay_signature}=req.body
+    const body=  req.session.payment.orderid + "|" + razorpay_payment_id
+    
+    const expected_signature=crypto.createHmac("sha256",process.env.RAZORPAY_SECRET).update(body.toString()).digest("hex")
+    console.log(expected_signature)
+    console.log(razorpay_signature)
+    
+    if(expected_signature===razorpay_signature){
+        
+        console.log(razorpay_payment_id,razorpay_order_id,razorpay_signature,req.session.payment.payeeid,req.session.user._id)
+        const newpayment= new payment({
+            razorpay_payment_id,razorpay_order_id,razorpay_signature,payee_id:req.session.payment.payeeid,payer_id:req.session.user._id
+        })
+        newpayment.save()
+        delete req.session.payment
+         res.render("./store/paymentok",{razorpay_payment_id})
+      
+    }
+    else res.send("payment unsuccessful") 
+}
+
