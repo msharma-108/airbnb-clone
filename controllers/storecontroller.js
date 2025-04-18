@@ -11,7 +11,7 @@ const {instance}=require("../config/razorpayInstance.js")
 // }
 
 exports.addedhomescontroller=(req,res,next)=>{
-    home.find().then(houselist=>{
+    home.find({isavailable:true}).then(houselist=>{
         res.render("./store/addedhomes",{houselist:houselist,currentPage:"addedhomes",isloggedin:req.isloggedin,user:req.session.user})
     })
 }
@@ -109,7 +109,7 @@ exports.detailscontroller=(req,res,next)=>{
  
 exports.checkout=async (req,res,next)=>{
     try {
-        const {amount,payeeid}=req.body
+        const {amount,payeeid,houseid}=req.body
         const orderoptions = {
             amount:amount*100,  // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             currency: "INR", 
@@ -119,6 +119,7 @@ exports.checkout=async (req,res,next)=>{
         req.session.payment={}
         req.session.payment.orderid=order.id
         req.session.payment.payeeid=payeeid
+        req.session.payment.houseid=houseid
         return res.json(order)
     } catch (error) {
         console.log("payment error ",error)  
@@ -140,8 +141,12 @@ exports.paymentverification=async (req,res,next)=>{
             razorpay_payment_id,razorpay_order_id,razorpay_signature,payee_id:req.session.payment.payeeid,payer_id:req.session.user._id
         })
         newpayment.save()
+        const rentedhouse=await home.findById(req.session.payment.houseid)
+        rentedhouse.isavailable=false;
+        rentedhouse.currentbuyerid=req.session.user._id
+        rentedhouse.save()
         delete req.session.payment
-         res.render("./store/paymentok",{razorpay_payment_id})
+        res.render("./store/paymentok",{razorpay_payment_id})
       
     }
     else res.send("payment unsuccessful") 

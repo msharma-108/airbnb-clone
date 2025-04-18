@@ -26,13 +26,16 @@
               <span class="text-sm text-gray-500"><%= homes["rating"] %></span>
             </div>
           </div>
-            
+            <% if(homes.isavailable){ %>
             <div><a href="/edithome/<%= homes._id %>?edit=true" class="bg-blue-500 text-white py-2 px-4 rounded-full text-sm hover:bg-blue-600 transition">Edit info</a></div>
             <div>
               <form action="/deletehome/<%= homes._id %>" method="POST">
                 <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded-full text-sm hover:bg-red-700 transition">Delete</button>
               </form>
             </div>
+            <% }else{ %>
+              <div class="bg-green-400 rounded-sm px-2">Home booked by <span class="font-bold"><%= homes.buyername %></span>. Contact the buyer at <%= homes.buyeremail %></div>
+            <% } %>
           </div>
         </div>
       <% }) %>

@@ -13,7 +13,9 @@ const homeschema=new mongoose.Schema({
     location:{type:String,required:true},
     image:{type:String},
     description:{type:String},
-    hostid:{type:mongoose.Schema.Types.ObjectId,ref:"user"}
+    hostid:{type:mongoose.Schema.Types.ObjectId,ref:"user"},
+    isavailable:{type:Boolean,default:true},
+    currentbuyerid:{type:mongoose.Schema.Types.ObjectId,ref:"user"}
 })
 
 // homeschema.pre("findOneAndDelete",async function(next){

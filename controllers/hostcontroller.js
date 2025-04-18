@@ -30,10 +30,19 @@ exports.listpostcontroller=async (req,res,next)=>{
 exports.hostedhomescontroller=async (req,res,next)=>{
     const userid=req.session.user._id
 
-    const host=await user.findById(userid).populate("hosthomes")
-    // home.find().then(houselist=>{
-        res.render("./host/hostedhomes",{houselist:host.hosthomes,currentPage:"hostedhomes",isloggedin:req.isloggedin,user:req.session.user})
-    // })
+    const host=await user.findById(userid).populate("hosthomes").lean()
+    const hosthomesinfo=host.hosthomes.map(house=>({...house}))
+    for (const hostedhouse of hosthomesinfo) {
+        if(!(hostedhouse.isavailable)){
+            const buyer=await user.findById(hostedhouse.currentbuyerid)
+            hostedhouse.buyername=buyer.firstname+" "+buyer.lastname
+            hostedhouse.buyeremail=buyer.email
+        }
+      }
+
+    console.log(hosthomesinfo) 
+    res.render("./host/hostedhomes",{houselist:hosthomesinfo,currentPage:"hostedhomes",isloggedin:req.isloggedin,user:req.session.user})
+
 
 }
 
@@ -59,7 +68,6 @@ exports.editgetcontroller=(req,res,next)=>{
 }
 exports.editpostcontroller=(req,res,next)=>{
     const {"lister-name":listername,"house-name":housename,price,location,rating,id,description}=req.body
-    // const entry= new home({listername,housename,price,location,rating,image,description})
  
     home.findById(id).then((home)=>{
         home.listername=listername
@@ -91,6 +99,9 @@ exports.deletepostcontroller=(req,res,next)=>{
     const homeid=req.params.homeid
     console.log(homeid)
     home.findByIdAndDelete(homeid).then(async(deletedhome)=>{
+        fs.unlink(deletedhome.image,(err)=>{
+            if(err) console.log("Error while deleting file",err)
+        })
         const guests=await user.find({usertype:"guest"}) //checking for all guests who may have marked this home as fav and deleting it
         for(let user of guests){
             user.favourites=user.favourites.filter(id=>id!=homeid)
@@ -98,7 +109,6 @@ exports.deletepostcontroller=(req,res,next)=>{
         }
         
         const host=await user.findById(deletedhome.hostid)
-        console.log(host)
         host.hosthomes=host.hosthomes.filter(id=> id!=homeid)
         await host.save()
         res.redirect("/hosted-homes")

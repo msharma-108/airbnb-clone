@@ -31,7 +31,7 @@
               <a href="/added-homes/<%= homes._id %>" class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full text-sm hover:bg-gray-300 transition">More Details</a>
             </div>
 
-              <div onclick="payNow('<%= homes.price %>','<%= homes.hostid %>')" class="bg-green-400 cursor-pointer w-fit text-gray-900 py-2 px-4 rounded-full text-sm hover:bg-green-500 transition">
+              <div onclick="payNow('<%= homes.price %>','<%= homes.hostid %>','<%= homes._id %>')" class="bg-green-400 cursor-pointer w-fit text-gray-900 py-2 px-4 rounded-full text-sm hover:bg-green-500 transition">
                 Book now
               </div>
           </div>
@@ -42,7 +42,7 @@
   </div>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
-    async function payNow(amount,payeeid) {
+    async function payNow(amount,payeeid,houseid) {
       // Create order by calling the server endpoint
       console.log(amount)
       const response = await fetch('/checkout', {
@@ -50,7 +50,7 @@
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ amount,payeeid, currency: 'INR', receipt: 'receipt#1', notes: {} })
+        body: JSON.stringify({ amount,payeeid,houseid, currency: 'INR', receipt: 'receipt#1', notes: {} })
       });
    
       const order = await response.json();
