@@ -18,8 +18,7 @@ exports.listpostcontroller=async (req,res,next)=>{
         const hostid=req.session.user._id
         const entry= new home({listername,housename,price,location,rating,image,description,hostid})
         const host=await user.findById(hostid)
-        entry.save().then(async (finalhouse)=>{
-
+        entry.save().then(async (finalhouse)=>{ 
             host.hosthomes.push(finalhouse._id)
             await host.save()
        

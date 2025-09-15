@@ -49,6 +49,7 @@ exports.logout=(req,res,next)=>{
     // res.cookie("isloggedin",false)
 
     req.session.destroy(()=>{
+        res.clearCookie('connect.sid');
         res.redirect("/login")
     })  
 }

@@ -6,19 +6,23 @@ const mongodbstore=require("connect-mongodb-session")(session)
 const multer=require("multer")
 require('dotenv').config();
 
-const DBPATH='mongodb://127.0.0.1:27017/airbnb'
 const app=express()
 
 
-const store=new  mongodbstore({
-    uri:DBPATH,
+const store=new mongodbstore({
+    uri:process.env.DBPATH,
     collection:"sessions"
 })
 app.use(session({
     secret:"mysecret_123",
     resave:false,
-    saveUninitialized:true,
-    store:store
+    saveUninitialized:false,
+    store:store,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        httpOnly: true,
+        secure: false, // Set to true if using HTTPS
+      },
 }))
 
 app.set("view engine","ejs")
@@ -37,9 +41,9 @@ const randomstring=(length)=>{
     for(let i=0;i<length;i++)   result+=chars.charAt(Math.floor(Math.random()*chars.length))
         return result
 
-}//creating for unique file names
+}//for unique file names
 const storage=multer.diskStorage({
-    destination:(req,file,cb)=>{
+    destination:(req,file,cb)=>{ 
         cb(null,"uploads/")
     },
     filename:(req,file,cb)=>{
@@ -84,9 +88,9 @@ app.use(storerouter)
 app.use(hostrouter)
 
 app.use(errorcontroller)
-mongoose.connect(DBPATH).then(()=>{
+mongoose.connect(process.env.DBPATH).then(()=>{
     app.listen(3000,()=>{
-        console.log("Server running at port http://localhost:3000")
+        console.log("Server running at port http://localhost:3000") 
     })
 }).catch(err=>{ 
     console.log(err)
